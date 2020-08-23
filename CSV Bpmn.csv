@@ -1,0 +1,31 @@
+Id,Name,Shape Library,Page ID,Contained By,Group,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1,campos,tipo
+1,Page,,,,,,,,,Flujo de proceso BPMN,,
+2,Start Event,BPMN 2.0,1,,,,,,,Querer comer un Poke,,
+3,Task,BPMN 2.0,1,,,,,,,Clic en el botón 'Pide en línea',,Enviar
+4,Gateway,BPMN 2.0,1,,,,,,,'Entrega a domicilio' o 'Recoger en tienda',,
+5,Task,BPMN 2.0,1,,,,,,,Clic en el botón 'Entrega a domicilio',,Enviar
+6,Task,BPMN 2.0,1,,,,,,,Clic en el botón 'Recoger en tienda',,Enviar
+7,Task,BPMN 2.0,1,,,,,,,Llenar formulario de 'Entrega a domicilio',"-Direccion: String 
+-Barrio: String 
+-Observaciones: String",Usuario
+8,Task,BPMN 2.0,1,,,,,,,Clic en el botón 'Solicitar Poke',,Enviar
+9,Task,BPMN 2.0,1,,,,,,,Proceso de escoger ingredientes,"-vegetales: Array(String)
+-carne: String
+-caldo: String
+-arroz: String",Usuario
+10,Task,BPMN 2.0,1,,,,,,,Clic en el botón 'Continuar',,Enviar
+11,Start Event,BPMN 2.0,1,,,,,,,Fin,,
+12,Line,,1,,,2,3,None,Arrow,,,
+13,Line,,1,,,4,5,None,Arrow,Si,,
+14,Line,,1,,,4,6,None,Arrow,No,,
+15,Line,,1,,,5,7,None,Arrow,,,
+16,Line,,1,,,7,8,None,Arrow,,,
+17,Line,,1,,,3,9,None,Arrow,,,
+18,Line,,1,,,9,10,None,Arrow,,,
+19,Line,,1,,,10,4,None,Arrow,,,
+20,Line,,1,,,8,11,None,Arrow,,,
+21,Page,,,,,,,,,Page 2,,
+22,User Image,User Images,21,,,,,,,,,
+23,User Image,User Images,21,,,,,,,,,
+24,User Image,User Images,21,,,,,,,,,
+25,User Image,User Images,21,,,,,,,,,
