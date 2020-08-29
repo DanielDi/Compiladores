@@ -1,0 +1,8 @@
+id,Nombre,Biblioteca de figuras,ID de página,Contenido por,Grupo,Origen de línea,Destino de la línea,Flecha de origen,Flecha de destino,Área de texto 1,tipo
+1,Página,,,,,,,,,Página 1,
+2,Evento de inicio,BPMN 2.0,1,,,,,,,Evento_de_inicio,Inicio
+3,Tarea,BPMN 2.0,1,5,,,,,,Clic en el botón 'Pedir en linea',Enviar
+4,Evento de inicio,BPMN 2.0,1,,,,,,,Evento_de_finalizacion,Finalizacion
+5,Grupo,BPMN 2.0,1,,,,,,,Vista_Poke,
+6,Línea,,1,,,2,3,None,Arrow,,
+7,Línea,,1,,,3,4,None,Arrow,,
