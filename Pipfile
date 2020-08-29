@@ -9,6 +9,3 @@ verify_ssl = true
 numpy = "*"
 pandas = "*"
 easygui = "*"
-
-[requires]
-python_version = "3.7"
