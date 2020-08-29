@@ -12,11 +12,13 @@ def main():
                          default='',
                          filetypes=extension)
     data = pd.read_csv(archivo)
+    data = depurar(data)
     data.dropna(axis=1,how='all',inplace=True)
-    #print(data)
-    #print(get_evento_inicio(data))
-    #print(get_grupos_vistas(data))
-    print(on_vista(data,get_grupos_vistas(data).id))
+    print(data,'\n')
+    print(get_evento_inicio(data),'\n')
+    print(get_tarea(data),'\n')
+    print(on_vista(data,get_grupos_vistas(data).id),'\n')
+    data.to_json(r'json',orient='index')
 
 if __name__ == "__main__": 
-    main() 
+    main()
