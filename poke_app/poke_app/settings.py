@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 from . import secrets
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.index'
 ]
 
 MIDDLEWARE = [
@@ -119,4 +121,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATICFILES_DIR=[
+    os.path.join(BASE_DIR, "static"),
+  ]
+
+
+# STATIC_URL = os.path.join(BASE_DIR, "static/")
+STATIC_URL = "/static/"
