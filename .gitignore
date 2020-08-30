@@ -1,3 +1,4 @@
 .vscode/settings.json
 .bpmn_parser\__pycache__
 bpmn_parser/__pycache__/parse_funcion.cpython-38.pyc
+poke_app/poke_app/secrets.py
