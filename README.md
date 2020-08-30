@@ -10,6 +10,7 @@ Para instalar por primera vez:
  - Ejecutar el comando: py manage.py runserver
  - Ingresar con el navegador a http://localhost:8000
  - Verificar que aparece la página de bienvenida de django
+ 
  Nota:
  Fijarse si es en el ambiente generado por pipenv.
  Si esta usando visual studio code 
