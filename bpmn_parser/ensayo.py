@@ -15,10 +15,8 @@ def main():
     data = depurar(data)
     data.dropna(axis=1,how='all',inplace=True)
     print(data,'\n')
-    print(get_evento_inicio(data),'\n')
-    print(get_tarea(data),'\n')
-    print(on_vista(data,get_grupos_vistas(data).id),'\n')
-    data.to_json(r'json',orient='index')
+    print(add_origen_destino(data))
+    data.to_json(r'json.json', orient='records') #Crear json
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main()
