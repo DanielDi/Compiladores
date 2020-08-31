@@ -133,4 +133,4 @@ STATIC_URL = "/static/"
 MEDIA_URL = '/diagramas/'
 
 # Ruta donde se almacenarán los archivos cargados
-MEDIA_ROOT = os.path.join(BASE_DIR, 'apps/index/diagramas')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'diagramas')
