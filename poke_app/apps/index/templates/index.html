@@ -17,14 +17,19 @@
         <div class="content">
           <div class="title"><h1>Bienvenido a Pokes</h1></div>
           <div class="btn-container">
-            <form action="/" class="upload-bpmn">
+            <form method="POST" enctype="multipart/form-data" class="upload-bpmn">
+              {% csrf_token %}
               <input
                 class="select-bpmn-btn"
                 type="file"
                 id="myFile"
-                name="filename"
+                name="myFile"
               />
               <input class="submit-bpmn-btn" type="submit" />
+
+              {% if uploaded_file_url %}
+                <p>Archivo cargado en: {{ uploaded_file_url }}</p>
+              {% endif %}
             </form>
           </div>
         </div>
