@@ -4,6 +4,7 @@ Para instalar por primera vez:
  - instalar python 
  - abrir cmd: pip3 install pipenv
  - ubicarse en la carpeta del proyecto: pipenv install
+ - para verificar que funciona, ejecutar ensayo.py
 
  Para correr la app web "poke_app":
  - Añadir el archivo secrets.py en la carpeta poke_app/poke_app el cual contiene la clave secreta del proyecto django
