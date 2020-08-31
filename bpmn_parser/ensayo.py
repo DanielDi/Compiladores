@@ -1,4 +1,4 @@
-import numpy as nppip 
+import numpy as np
 import pandas as pd
 import easygui as eg
 from parse_funcion import *
