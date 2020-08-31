@@ -128,3 +128,9 @@ STATICFILES_DIR=[
 
 # STATIC_URL = os.path.join(BASE_DIR, "static/")
 STATIC_URL = "/static/"
+
+# URL donde se puede acceder a los archivos cargados
+MEDIA_URL = '/diagramas/'
+
+# Ruta donde se almacenarán los archivos cargados
+MEDIA_ROOT = os.path.join(BASE_DIR, 'apps/index/diagramas')
