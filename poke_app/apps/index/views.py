@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect
+from . import ensayo
 
 # Create your views here.
 
@@ -13,6 +14,7 @@ def index(request):
     # Se almacena en la ruta definida en la variable MEDIA_ROOT en el archivo settings.py
     filename = fs.save(myfile.name, myfile)   # fs.save(nombre, contenido)
 
+    ensayo.main(filename)
     print("Archivo:", filename, " cargado con éxito")
     return HttpResponseRedirect("/")
 
