@@ -31,5 +31,14 @@
         </div>
       </div>
     </header>
+
+    <!--- con 'safe' toma el string como código html -->
+    {{ titulo | safe }}
+    <br>
+
+    {{ formulario | safe }}
+    <br>
+
+    {{ no_existe | safe }}
   </body>
 </html>
