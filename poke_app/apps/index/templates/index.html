@@ -33,12 +33,14 @@
     </header>
 
     <!--- con 'safe' toma el string como código html -->
-    {{ titulo | safe }}
-    <br>
+    <div style="display: flex; justify-content: center; margin: 40px;" id="vista1">
+      {{ boton1 | safe }}
+    </div>
 
-    {{ formulario | safe }}
-    <br>
+    <div style="display: flex; flex-direction: column; align-items: center; margin: 40px;" id="vista2">
+      {{ formulario1 | safe }}
+    </div>
 
-    {{ no_existe | safe }}
+    <br>
   </body>
 </html>
