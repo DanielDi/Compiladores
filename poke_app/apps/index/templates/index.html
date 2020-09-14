@@ -33,14 +33,25 @@
     </header>
 
     <!--- con 'safe' toma el string como código html -->
+    
     <div style="display: flex; justify-content: center; margin: 40px;" id="vista1">
-      {{ boton1 | safe }}
+
     </div>
 
+
     <div style="display: flex; flex-direction: column; align-items: center; margin: 40px;" id="vista2">
-      {{ formulario1 | safe }}
+
     </div>
 
     <br>
+
+    <script>
+      var vista1 = document.getElementById("vista1");
+      var vista2 = document.getElementById("vista2")
+  
+      vista1.innerHTML = "{{ boton1 | safe }}"
+      vista2.innerHTML = "{{ formulario1 | safe }}"
+
+    </script>
   </body>
 </html>

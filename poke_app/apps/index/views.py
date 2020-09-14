@@ -76,8 +76,9 @@ def index(request):
     # render(request, 'index.html', context)
     # return HttpResponseRedirect("/")
 
-  # Diccionario que se le envía a la plantilla, para imprimir su valor sobre esta se hace por
-  # medio de la clave
   
+  # nombre_plantilla = "formulario"
+  # os.system("touch apps/index/templates/" + nombre_plantilla + ".html")
+
 
   return render(request, 'index.html', context)
