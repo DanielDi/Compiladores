@@ -6,11 +6,12 @@ def depurar(df):
     df.drop(['Biblioteca de figuras','ID de página','Flecha de origen','Flecha de destino'], axis = 'columns', inplace=True)
 
     #Renombrar algunas columnas
-    df.rename(columns={'Origen de línea':'Origen', 'Destino de la línea':'Destino'}, inplace=True)
+    df.rename(columns={'Origen de línea':'Origen', 'Destino de la línea':'Destino', 'Área de texto 1':'Texto1'}, inplace=True)
 
     #Eliminar filas innecesarias
     df = df.drop(df[df['Nombre']=='Página'].index)
 
+    df.dropna(axis=1,how='all',inplace=True)
     return (df)
 
 #añadir los origenes y destinos con base en la información de las líneas
@@ -20,8 +21,17 @@ def add_origen_destino(df):
         df.loc[(df.id == row['Destino']), 'Origen'] = row['Origen']
         df.loc[(df.id == row['Origen']), 'Destino'] = row['Destino']
 
-    #Eliminar filas de lineas
-    df = df.drop(df[df['Nombre']=='Línea'].index)
+    #Bloque para convertir lineas en botones
+    lineas = df[(df.Nombre == 'Línea') & (df.Texto1.notna())]
+    df = df.drop(df[(df.Nombre == 'Línea')].index)
+    add = []
+    id = df.id.max()+1
+    for _,row in lineas.iterrows():
+        df.Origen = df.Origen.replace({row['Origen']:id})
+        add.append({'id':id, 'Nombre' : 'Tarea' , 'Texto1' : row['Texto1'], 'Origen':row['Origen'], 'Destino':row['Destino']})
+        id += 1
+    for i in add:
+        df = df.append(i, ignore_index=True)
 
     return(df)
 
