@@ -8,7 +8,7 @@ import os
 # Create your views here.
 
 def crearFormulario(form_json, idForm):
-  formulario = "<h3>" + form_json['Área de texto 1'] + "</h3>" + "<form action=''>"
+  formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form action=''>"
   campos = (form_json['campos']).split(';')
   id_etiqueta = 1
   for campo in campos:
@@ -22,7 +22,7 @@ def crearFormulario(form_json, idForm):
   return formulario
 
 def crearBoton(boton_json, idBoton):
-  boton = "<button type='button' id='" + idBoton + "'>" + boton_json['Área de texto 1'] + "</button>"
+  boton = "<button type='button' id='" + idBoton + "'>" + boton_json['Texto1'] + "</button>"
   return boton
 
 def index(request):

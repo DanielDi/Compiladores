@@ -12,5 +12,5 @@ def main(archivo):
     archivo = os.path.abspath(archivo)
     data = pd.read_csv(archivo)
     data = parse_funcion.depurar(data)
-    data.dropna(axis=1,how='all',inplace=True)
+    print(parse_funcion.add_origen_destino(data))
     data.to_json(r'json.json', orient='records') #Crear json
