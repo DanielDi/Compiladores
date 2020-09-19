@@ -9,7 +9,6 @@ import os
 
 def crearFormulario(form_json, idForm):
   formulario = "<h3>" + form_json['Área de texto 1'] + "</h3>" + "<form action=''>"
-  print("Mi form_json", form_json)
   campos = (form_json['campos']).split(';')
   id_etiqueta = 1
   for campo in campos:
@@ -62,23 +61,8 @@ def index(request):
 
     print("Num formularios:", numForm)
     print("Num botones:", numBoton)
-    # context['titulo'] = "<h1>Mi header</h1>"
-
-    # context['formulario'] = """
-    #   <form action="/action_page.php">
-    #   <label for="fname">First name:</label><br>
-    #   <input type="text" id="fname" name="fname" value="John"><br>
-    #   <label for="lname">Last name:</label><br>
-    #   <input type="text" id="lname" name="lname" value="Doe"><br><br>
-    #   <input type="submit" value="Submit">
-    # """
 
     # render(request, 'index.html', context)
     # return HttpResponseRedirect("/")
-
-  
-  # nombre_plantilla = "formulario"
-  # os.system("touch apps/index/templates/" + nombre_plantilla + ".html")
-
 
   return render(request, 'index.html', context)
