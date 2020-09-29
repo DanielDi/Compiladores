@@ -41,7 +41,7 @@ def index(request):
         context[idBoton] = funciones_html.crearBoton(obj, idBoton)
 
       if (obj['Nombre'] == "Almacén de datos"):
-        funciones_html.crearTablas(obj, mi_json)
+        funciones_html.crearSentenciaTablas(obj, mi_json)
 
 
     print("Num formularios:", numForm)
@@ -49,5 +49,8 @@ def index(request):
 
     # render(request, 'index.html', context)
     # return HttpResponseRedirect("/")
+
+  elif request.method == 'GET':
+    funciones_html.crearSentenciaInsert(request)
 
   return render(request, 'index.html', context)

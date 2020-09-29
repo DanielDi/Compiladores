@@ -6,7 +6,7 @@ from sqlite3 import Error
 # usuario desea crear 
 
 def crearFormulario(form_json, idForm):
-  formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form action=''>"
+  formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form action='/' method='GET'>"
   campos = (form_json['campos']).split(';')
   id_etiqueta = 1
   for campo in campos:
@@ -27,7 +27,7 @@ def crearFormulario(form_json, idForm):
       else:
         entrada += "<br>"
     else:    
-      entrada = "<input type='" + tipo + "' id='" + idForm + "." + str(id_etiqueta) + "'><br>"
+      entrada = "<input type='" + tipo + "' id='" + idForm + "." + str(id_etiqueta) + "' name='" + nombre + "'><br>"
       id_etiqueta += 1
     formulario += label + entrada
 
@@ -38,7 +38,7 @@ def crearBoton(boton_json, idBoton):
   boton = "<button type='button' id='" + idBoton + "'>" + boton_json['Texto1'] + "</button>"
   return boton
 
-def crearTablas(almacen, mi_json):
+def crearSentenciaTablas(almacen, mi_json):
   idAlmacen = almacen["id"]
   nombreTabla = almacen["Texto1"]
   for obj in mi_json:
@@ -63,6 +63,10 @@ def crearTablas(almacen, mi_json):
     nombreCol, tipoCol = columna
     if tipoCol == "number":
       tipoCol = "real"
+    elif tipoCol[:8] == "checkbox":
+      tipoCol = "text"
+    elif tipoCol[:5] == "radio":
+      tipoCol = "text"
     
     sentenciaSQL += nombreCol + " " + tipoCol + ",\n"
 
@@ -73,6 +77,12 @@ def crearTablas(almacen, mi_json):
   conn = create_connection(settings.DATABASES['default']['NAME'])
   create_table(conn, sentenciaSQL)
   conn.close()
+
+def crearSentenciaInsert(datosReq):
+  for a in datosReq.GET.items():
+      prop, val = a
+      print("Propiedad:", prop)
+      print("Valor:", val)
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
