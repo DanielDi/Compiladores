@@ -50,7 +50,7 @@ def index(request):
     # render(request, 'index.html', context)
     # return HttpResponseRedirect("/")
 
-  elif request.method == 'GET':
-    funciones_html.crearSentenciaInsert(request)
+  #elif request.method == 'GET':
+    #funciones_html.crearSentenciaInsert(request)
 
   return render(request, 'index.html', context)

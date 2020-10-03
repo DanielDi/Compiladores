@@ -6,7 +6,7 @@ from sqlite3 import Error
 # usuario desea crear 
 
 def crearFormulario(form_json, idForm):
-  formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form action='/' method='GET'>"
+  formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form>"
   campos = (form_json['campos']).split(';')
   id_etiqueta = 1
   for campo in campos:
@@ -31,7 +31,7 @@ def crearFormulario(form_json, idForm):
       id_etiqueta += 1
     formulario += label + entrada
 
-  formulario += "<br><input type='submit' value='Enviar'></form>"
+  formulario += "<br><input type='button' value='Enviar'></form>"
   return formulario
 
 def crearBoton(boton_json, idBoton):
@@ -78,11 +78,12 @@ def crearSentenciaTablas(almacen, mi_json):
   create_table(conn, sentenciaSQL)
   conn.close()
 
-def crearSentenciaInsert(datosReq):
-  for a in datosReq.GET.items():
-      prop, val = a
-      print("Propiedad:", prop)
-      print("Valor:", val)
+
+# def crearSentenciaInsert(datosReq):
+#   for a in datosReq.GET.items():
+#       prop, val = a
+#       print("Propiedad:", prop)
+#       print("Valor:", val)
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
