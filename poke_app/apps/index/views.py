@@ -9,7 +9,11 @@ from . import funciones_html
 # Create your views here.
 
 def index(request):
-  context = {}
+  application = {}
+  context = {
+    'application': application 
+  }
+  
   if request.method == 'POST' and request.FILES['myFile']:
     myfile = request.FILES['myFile']
     fs = FileSystemStorage()
@@ -23,9 +27,6 @@ def index(request):
 
     mi_json = open(ruta_json, 'r').read()
     mi_json = json.loads(mi_json)
-    
-    print(mi_json)  
-
     numForm = 0
     numBoton = 0
 
@@ -33,12 +34,12 @@ def index(request):
       if (obj['tipo'] == 'formulario'):
         numForm += 1
         idForm = 'formulario' + str(numForm)
-        context[idForm] = funciones_html.crearFormulario(obj, idForm)
+        application[idForm] = funciones_html.crearFormulario(obj, idForm)
 
       if (obj['tipo'] == "boton"):
         numBoton += 1
         idBoton = 'boton' + str(numBoton)
-        context[idBoton] = funciones_html.crearBoton(obj, idBoton)
+        application[idBoton] = funciones_html.crearBoton(obj, idBoton)
 
       if (obj['Nombre'] == "Almacén de datos"):
         funciones_html.crearSentenciaTablas(obj, mi_json)
@@ -47,6 +48,8 @@ def index(request):
     print("Num formularios:", numForm)
     print("Num botones:", numBoton)
 
+    print(len(context['application']))
+    print(context['application']['formulario2'])
     # render(request, 'index.html', context)
     # return HttpResponseRedirect("/")
 
