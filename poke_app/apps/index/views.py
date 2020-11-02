@@ -27,6 +27,7 @@ def index(request):
 
     mi_json = open(ruta_json, 'r').read()
     mi_json = json.loads(mi_json)
+    print(mi_json)
     numForm = 0
     numBoton = 0
 
@@ -34,7 +35,7 @@ def index(request):
       if (obj['tipo'] == 'formulario'):
         numForm += 1
         idForm = 'formulario' + str(numForm)
-        application[idForm] = funciones_html.crearFormulario(obj, idForm)
+        application[idForm] = funciones_html.crearFormulario(obj, idForm, mi_json)
 
       if (obj['tipo'] == "boton"):
         numBoton += 1
