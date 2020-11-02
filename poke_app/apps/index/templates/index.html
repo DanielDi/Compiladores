@@ -30,7 +30,7 @@
                 id="myFile"
                 name="myFile"
               />
-              <input class="submit-bpmn-btn" type="submit" />
+              <input class="submit-bpmn-btn" type="submit"/>
             </form>
           </div>
         </div>
@@ -61,49 +61,72 @@
       };
 
       const handleFormSubmission = (form) => {
+        formObj = {};
+        checkBoxValue = []
         Array.from(form).map((element, idx) => {
-          console.dir(element);
-          console.dir(element.type);
 
           switch (element.type) {
             case "radio":
-              console.dir(element.name);
-              console.log(element.value);
-              console.log(element.checked);
+
+              if (element.checked) {
+                formObj[element.name] = element.value
+              }
               break;
 
             case "checkbox":
-              console.dir(element.name);
-              console.log(element.value);
-              console.log(element.checked);
+              if (element.checked) {
+                checkBoxValue.push(element.value)
+              }
               break;
 
             case "text":
-              console.log(element.tagName);
-              console.log(element.value);
+              formObj[element.name] = element.value;
               break;
 
             case "email":
-              console.log(element.value);
+              formObj[element.name] = element.value;
               break;
 
             case "password":
-              console.log(element.value);
-              console.log(element.tagName);
+              formObj[element.name] = element.value;
               break;
 
             case "date":
-              console.log(element.valueAsDate);
+              formObj[element.name] = element.valueAsDate;
               break;
 
             case "time":
-              console.log(element.valueAsDate);
+              formObj[element.name] = element.valueAsDate;
               break;
             default:
               break;
           }
+
+          if (element.type === "checkbox") {
+            formObj[element.name] = checkBoxValue.toString();
+          }
         });
+
+        // Para enviar a la base de datos
+        sendFormTo('../data/', formObj)
+        console.log(formObj)
+        console.log(JSON.stringify(formObj))
       };
+
+      const sendFormTo = async (path, body) => {
+        const response = await fetch(path, {
+          method: 'POST',
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        return response.json();
+      }
 
       const nextForm = () => {
         const lastForm = document.querySelector(`#formulario${idx}`);
