@@ -10,10 +10,7 @@ def crearFormulario(form_json, idForm, mi_json):
   idsAlmacenPosibles = []
   for obj in mi_json:
     if obj["Destino"] == idFormulario and obj["Nombre"] == "Línea":
-      print("ID POSIBLE")
-      print(obj["Origen"])
       idsAlmacenPosibles.append(obj["Origen"]) 
-
 
   almacen = None
   for idAlm in idsAlmacenPosibles:
@@ -107,11 +104,25 @@ def crearSentenciaTablas(almacen, mi_json):
   conn.close()
 
 
-# def crearSentenciaInsert(datosReq):
-#   for a in datosReq.GET.items():
-#       prop, val = a
-#       print("Propiedad:", prop)
-#       print("Valor:", val)
+def crearSentenciaInsert(datos_json):
+  sentencia = "INSERT INTO " + datos_json["tabla"] + "("
+  del datos_json["tabla"]
+
+  for key in datos_json:
+    sentencia += key + ","
+
+  sentencia = sentencia[:-1] + ") VALUES("
+
+  for key in datos_json:
+    sentencia += datos_json[key] + ","
+
+  sentencia = sentencia[:-1] + ")"
+
+  conn = create_connection(settings.DATABASES['default']['NAME'])
+  cur = conn.cursor()
+  cur.execute(sentencia)
+  conn.commit()
+  conn.close()
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database

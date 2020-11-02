@@ -5,7 +5,8 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-  path('', views.index, name="index")
+  path('', views.index, name="index"),
+  path('data/', views.datos)
 ]
 
 # Ruta para acceder a los diagramas de la app desde el navegador

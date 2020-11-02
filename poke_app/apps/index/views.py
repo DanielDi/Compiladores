@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
 import json
 import os
 from . import ensayo
@@ -58,3 +59,15 @@ def index(request):
     #funciones_html.crearSentenciaInsert(request)
 
   return render(request, 'index.html', context)
+
+@csrf_exempt
+def datos(request):
+  if request.method == 'POST':
+    json_body = json.loads(request.body)
+    print(json_body)
+    #if(json_body["tabla"] == "Poke"):
+      #print(json_body["arroz"])
+    
+    #funciones_html.crearSentenciaInsert(json_body)
+    
+    return HttpResponseRedirect("/")
