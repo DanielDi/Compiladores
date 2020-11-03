@@ -42,6 +42,7 @@ def index(request):
         application[idBoton] = funciones_html.crearBoton(obj, idBoton)
 
       if (obj['Nombre'] == "Almacén de datos"):
+        print("ENTRÓ A SQL FN")
         funciones_html.crearSentenciaTablas(obj, mi_json)
 
 
@@ -49,7 +50,7 @@ def index(request):
     print("Num botones:", numBoton)
 
     print(len(context['application']))
-    print(context['application']['formulario2'])
+    # print(context['application']['formulario2'])
     # render(request, 'index.html', context)
     # return HttpResponseRedirect("/")
 
