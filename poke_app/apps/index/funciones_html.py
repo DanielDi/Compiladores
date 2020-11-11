@@ -5,8 +5,30 @@ from sqlite3 import Error
 # Funciones que reciben un objeto JSON del TIPO de elemento HTML que el 
 # usuario desea crear 
 
-def crearFormulario(form_json, idForm):
-  formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form id='" + idForm + "'>"
+def crearFormulario(form_json, idForm, mi_json):
+  idFormulario = form_json["id"]
+  idsAlmacenPosibles = []
+  for obj in mi_json:
+    if obj["Destino"] == idFormulario and obj["Nombre"] == "Línea":
+      idsAlmacenPosibles.append(obj["Origen"]) 
+
+  almacen = None
+  for idAlm in idsAlmacenPosibles:
+    for obj in mi_json:
+      if obj["id"] == idAlm and obj["Nombre"] == "Almacén de datos":
+        almacen = obj
+        break
+
+  nombreTabla = None
+  if(almacen):
+    nombreTabla = almacen["Texto1"]
+
+  if(nombreTabla):
+    formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form id='" + idForm + "' name='" + nombreTabla + "'>"
+
+  else:
+    formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form id='" + idForm + "'>"
+
   campos = (form_json['campos']).split(';')
   id_etiqueta = 1
   for campo in campos:
@@ -41,15 +63,18 @@ def crearBoton(boton_json, idBoton):
 def crearSentenciaTablas(almacen, mi_json):
   idAlmacen = almacen["id"]
   nombreTabla = almacen["Texto1"]
-  for obj in mi_json:
-    if obj["Destino"] == idAlmacen and obj["Nombre"] == "Línea":
-      idFormulario = obj["Origen"]
-      break
+  idsFormPosibles = []
 
   for obj in mi_json:
-    if obj["id"] == idFormulario:
-      formulario = obj
-      break 
+    if obj["Origen"] == idAlmacen and obj["Nombre"] == "Línea":
+      idsFormPosibles.append(obj["Destino"]) 
+      break
+
+  for idF in idsFormPosibles:
+    for obj in mi_json:
+      if obj["id"] == idF and obj["tipo"] == "formulario":
+        formulario = obj
+        break 
 
   campos = (formulario['campos']).split(';')
   nombre_y_tipo = []
@@ -79,11 +104,25 @@ def crearSentenciaTablas(almacen, mi_json):
   conn.close()
 
 
-# def crearSentenciaInsert(datosReq):
-#   for a in datosReq.GET.items():
-#       prop, val = a
-#       print("Propiedad:", prop)
-#       print("Valor:", val)
+def crearSentenciaInsert(datos_json):
+  sentencia = "INSERT INTO " + datos_json["tabla"] + "("
+  del datos_json["tabla"]
+
+  for key in datos_json:
+    sentencia += key + ","
+
+  sentencia = sentencia[:-1] + ") VALUES("
+
+  for key in datos_json:
+    sentencia += datos_json[key] + ","
+
+  sentencia = sentencia[:-1] + ")"
+
+  conn = create_connection(settings.DATABASES['default']['NAME'])
+  cur = conn.cursor()
+  cur.execute(sentencia)
+  conn.commit()
+  conn.close()
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
