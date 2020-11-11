@@ -13,4 +13,5 @@ def main(archivo):
     data = pd.read_csv(archivo)
     data = parse_funcion.depurar(data)
     print(parse_funcion.add_origen_destino(data))
+    print(data)
     data.to_json(r'json.json', orient='records') #Crear json
