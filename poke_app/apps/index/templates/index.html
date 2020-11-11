@@ -64,7 +64,10 @@
         formObj = {};
         checkBoxValue = []
         Array.from(form).map((element, idx) => {
-          formObj["form_id"] = form.id;
+          //formObj["form_id"] = form.id;
+          if(form.name) {
+            formObj["tabla"] = form.name;
+          }
 
           switch (element.type) {
             case "radio":
@@ -81,6 +84,10 @@
               break;
 
             case "text":
+              formObj[element.name] = element.value;
+              break;
+
+            case "number":
               formObj[element.name] = element.value;
               break;
 

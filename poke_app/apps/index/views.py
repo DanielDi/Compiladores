@@ -65,9 +65,7 @@ def datos(request):
   if request.method == 'POST':
     json_body = json.loads(request.body)
     print(json_body)
-    #if(json_body["tabla"] == "Poke"):
-      #print(json_body["arroz"])
-    
-    #funciones_html.crearSentenciaInsert(json_body)
+    if "tabla" in json_body:  
+      funciones_html.crearSentenciaInsert(json_body)
     
     return HttpResponseRedirect("/")

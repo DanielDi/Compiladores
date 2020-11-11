@@ -107,6 +107,8 @@ def crearSentenciaTablas(almacen, mi_json):
 def crearSentenciaInsert(datos_json):
   sentencia = "INSERT INTO " + datos_json["tabla"] + "("
   del datos_json["tabla"]
+  print("DATOS DENTRO DE LA FUNC INSERT")
+  print(datos_json)
 
   for key in datos_json:
     sentencia += key + ","
@@ -114,9 +116,14 @@ def crearSentenciaInsert(datos_json):
   sentencia = sentencia[:-1] + ") VALUES("
 
   for key in datos_json:
-    sentencia += datos_json[key] + ","
+    if(datos_json[key]):
+      sentencia += "'" + datos_json[key] + "'" + ","
+    else:
+      sentencia += "null" + ","
 
   sentencia = sentencia[:-1] + ")"
+  print("SENTENCIA INSERT FINAL:")
+  print(sentencia)
 
   conn = create_connection(settings.DATABASES['default']['NAME'])
   cur = conn.cursor()
