@@ -3,6 +3,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect
 import json
 import os
+import pandas as pd
 from . import ensayo
 from . import funciones_html
 
@@ -29,9 +30,13 @@ def index(request):
     mi_json = json.loads(mi_json)
     numForm = 0
     numBoton = 0
+    numGatway = 0
 
     for obj in mi_json:
       if (obj['tipo'] == 'formulario'):
+        data = pd.read_json(os.path.abspath('json.json'))
+        consul = data[(data['Nombre']=='Gateway') & (data['Origen']== obj['id'])]
+        print()
         numForm += 1
         idForm = 'formulario' + str(numForm)
         application[idForm] = funciones_html.crearFormulario(obj, idForm)
@@ -40,6 +45,11 @@ def index(request):
         numBoton += 1
         idBoton = 'boton' + str(numBoton)
         application[idBoton] = funciones_html.crearBoton(obj, idBoton)
+
+      if(obj['tipo'] == 'Gateway'):
+        numGatway +=1
+        idGatway = "Gatway" + str(numGatway)
+        application[idGatway] = str(obj['expresion'])
 
       if (obj['Nombre'] == "Almacén de datos"):
         print("ENTRÓ A SQL FN")
@@ -57,4 +67,5 @@ def index(request):
   #elif request.method == 'GET':
     #funciones_html.crearSentenciaInsert(request)
 
-  return render(request, 'index.html', context)
+  return render(request, 'index.html', context
+  )
