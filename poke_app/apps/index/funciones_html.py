@@ -66,15 +66,9 @@ def crearSentenciaTablas(almacen, mi_json):
   idsFormPosibles = []
 
   for obj in mi_json:
-    if obj["Origen"] == idAlmacen and obj["Nombre"] == "Línea":
-      idsFormPosibles.append(obj["Destino"]) 
+    if obj["id"] == almacen["Destino"]:
+      formulario = obj
       break
-
-  for idF in idsFormPosibles:
-    for obj in mi_json:
-      if obj["id"] == idF and obj["tipo"] == "formulario":
-        formulario = obj
-        break 
 
   campos = (formulario['campos']).split(';')
   nombre_y_tipo = []
