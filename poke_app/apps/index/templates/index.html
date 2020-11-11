@@ -64,6 +64,7 @@
         formObj = {};
         checkBoxValue = []
         Array.from(form).map((element, idx) => {
+          formObj["form_id"] = form.id;
 
           switch (element.type) {
             case "radio":
