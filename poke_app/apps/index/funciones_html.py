@@ -5,30 +5,8 @@ from sqlite3 import Error
 # Funciones que reciben un objeto JSON del TIPO de elemento HTML que el 
 # usuario desea crear 
 
-def crearFormulario(form_json, idForm, mi_json):
-  idFormulario = form_json["id"]
-  idsAlmacenPosibles = []
-  for obj in mi_json:
-    if obj["Destino"] == idFormulario and obj["Nombre"] == "Línea":
-      idsAlmacenPosibles.append(obj["Origen"]) 
-
-  almacen = None
-  for idAlm in idsAlmacenPosibles:
-    for obj in mi_json:
-      if obj["id"] == idAlm and obj["Nombre"] == "Almacén de datos":
-        almacen = obj
-        break
-
-  nombreTabla = None
-  if(almacen):
-    nombreTabla = almacen["Texto1"]
-
-  if(nombreTabla):
-    formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form id='" + idForm + "' name='" + nombreTabla + "'>"
-
-  else:
-    formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form id='" + idForm + "'>"
-
+def crearFormulario(form_json, idForm):
+  formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form id='" + idForm + "'>"
   campos = (form_json['campos']).split(';')
   id_etiqueta = 1
   for campo in campos:
@@ -63,8 +41,6 @@ def crearBoton(boton_json, idBoton):
 def crearSentenciaTablas(almacen, mi_json):
   idAlmacen = almacen["id"]
   nombreTabla = almacen["Texto1"]
-  idsFormPosibles = []
-
   for obj in mi_json:
     if obj["id"] == almacen["Destino"]:
       formulario = obj
@@ -98,32 +74,11 @@ def crearSentenciaTablas(almacen, mi_json):
   conn.close()
 
 
-def crearSentenciaInsert(datos_json):
-  sentencia = "INSERT INTO " + datos_json["tabla"] + "("
-  del datos_json["tabla"]
-  print("DATOS DENTRO DE LA FUNC INSERT")
-  print(datos_json)
-
-  for key in datos_json:
-    sentencia += key + ","
-
-  sentencia = sentencia[:-1] + ") VALUES("
-
-  for key in datos_json:
-    if(datos_json[key]):
-      sentencia += "'" + datos_json[key] + "'" + ","
-    else:
-      sentencia += "null" + ","
-
-  sentencia = sentencia[:-1] + ")"
-  print("SENTENCIA INSERT FINAL:")
-  print(sentencia)
-
-  conn = create_connection(settings.DATABASES['default']['NAME'])
-  cur = conn.cursor()
-  cur.execute(sentencia)
-  conn.commit()
-  conn.close()
+# def crearSentenciaInsert(datosReq):
+#   for a in datosReq.GET.items():
+#       prop, val = a
+#       print("Propiedad:", prop)
+#       print("Valor:", val)
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
