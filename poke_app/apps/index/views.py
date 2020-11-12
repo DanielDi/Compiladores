@@ -48,9 +48,10 @@ def index(request):
       if (obj['Nombre'] == "Almacén de datos"):
         funciones_html.crearSentenciaTablas(obj, mi_json)
 
-      if(obj['tipo'] == 'Gateway'):
+      if(obj['Nombre'] == 'Gateway'):
         numGatway +=1
         idGatway = "Gatway" + str(numGatway)
+        print(str(obj['expresion']))
         application[idGatway] = str(obj['expresion'])
 
     print("Num formularios:", numForm)
