@@ -16,22 +16,48 @@ def depurar(df):
 
 #añadir los origenes y destinos con base en la información de las líneas
 def add_origen_destino(df):
+    #Se reemplaza el destino del almacenamiento por el id de su respectivo formulario
+    # almacenamientos = df[(df['Nombre']=='Almacén de datos')]
+    # for _,row in almacenamientos.iterrows():
+    #     df.loc[(df.id == row['id']), 'Destino'] = df[df.Destino == row.id].Origen.item() 
+    #     #Se elimina la línea entre el almacenamiento y el formulario 
+    #     df = df.drop(df[df.Destino == row.id].index)
+
+    # condicionales = df[(df['Nombre']=='Gateway')]
+    # for _,row in almacenamientos.iterrows():
+    #     valores = df[(df.Origen == row['id'] and df.Nombre != "Línea")]
+    #     for _,row2 in valores:
+    #         df.loc[(df.Origen == row2['id'] and df.Nombre != "Línea"), 'ValorVerdad'] = df[df.Destino == row2.id and df.Nombre == "Línea"].Texto1.item()
+        
+
     lineas = df[(df['Nombre']=='Línea')].dropna(axis=1)
     for _,row in lineas.iterrows():
-        df.loc[(df.id == row['Destino']), 'Origen'] = row['Origen']
-        df.loc[(df.id == row['Origen']), 'Destino'] = row['Destino']
+        print(df[(df.id == row.Destino)].Nombre.item())
+        if df[(df.id == row.Destino)].Nombre.item() == "Almacén de datos":
+            df.loc[(df.id == row['Destino']), 'Destino'] = df.loc[df.id == row.id].Origen.item()
+
+        elif df[(df.id == row.Origen)].Nombre.item() == "Gateway":
+            df.loc[(df.id == row.Destino), "valorVerdad"] = df.loc[df.id == row.id].Texto1.item()
+            df.loc[(df.id == row['Destino']), 'Origen'] = row['Origen']
+            df.loc[(df.id == row['Origen']), 'Destino'] = row['Destino']
+
+        else:
+            df.loc[(df.id == row['Destino']), 'Origen'] = row['Origen']
+            df.loc[(df.id == row['Origen']), 'Destino'] = row['Destino']
+
+    df = df.drop(df[(df.Nombre == 'Línea')].index)
 
     #Bloque para convertir lineas en botones
-    lineas = df[(df.Nombre == 'Línea') & (df.Texto1.notna())]
-    df = df.drop(df[(df.Nombre == 'Línea')].index)
-    add = []
-    id = df.id.max()+1
-    for _,row in lineas.iterrows():
-        df.Origen = df.Origen.replace({row['Origen']:id})
-        add.append({'id':id, 'Nombre' : 'Tarea' , 'Texto1' : row['Texto1'], 'Origen':row['Origen'], 'Destino':row['Destino']})
-        id += 1
-    for i in add:
-        df = df.append(i, ignore_index=True)
+    # lineas = df[(df.Nombre == 'Línea') & (df.Texto1.notna())]
+    # df = df.drop(df[(df.Nombre == 'Línea')].index)
+    # add = []
+    # id = df.id.max()+1
+    # for _,row in lineas.iterrows():
+    #     df.Origen = df.Origen.replace({row['Origen']:id})
+    #     add.append({'id':id, 'Nombre' : 'Línea' , 'Texto1' : row['Texto1'], 'Origen':row['Origen'], 'Destino':row['Destino']})
+    #     id += 1
+    # for i in add:
+    #     df = df.append(i, ignore_index=True)
 
     return(df)
 

@@ -7,17 +7,11 @@ from sqlite3 import Error
 
 def crearFormulario(form_json, idForm, mi_json):
   idFormulario = form_json["id"]
-  idsAlmacenPosibles = []
-  for obj in mi_json:
-    if obj["Destino"] == idFormulario and obj["Nombre"] == "Línea":
-      idsAlmacenPosibles.append(obj["Origen"]) 
-
   almacen = None
-  for idAlm in idsAlmacenPosibles:
-    for obj in mi_json:
-      if obj["id"] == idAlm and obj["Nombre"] == "Almacén de datos":
-        almacen = obj
-        break
+  for obj in mi_json:
+    if obj["Destino"] == idFormulario and obj["Nombre"] == "Almacén de datos":
+      almacen = obj
+      break
 
   nombreTabla = None
   if(almacen):
@@ -63,18 +57,11 @@ def crearBoton(boton_json, idBoton):
 def crearSentenciaTablas(almacen, mi_json):
   idAlmacen = almacen["id"]
   nombreTabla = almacen["Texto1"]
-  idsFormPosibles = []
 
   for obj in mi_json:
-    if obj["Origen"] == idAlmacen and obj["Nombre"] == "Línea":
-      idsFormPosibles.append(obj["Destino"]) 
-      break
-
-  for idF in idsFormPosibles:
-    for obj in mi_json:
-      if obj["id"] == idF and obj["tipo"] == "formulario":
+    if obj["id"] == almacen["Destino"]:
         formulario = obj
-        break 
+        break
 
   campos = (formulario['campos']).split(';')
   nombre_y_tipo = []
@@ -156,3 +143,6 @@ def create_table(conn, create_table_sql):
     except Error as e:
         print(e)
   
+
+
+

@@ -6,6 +6,7 @@ import json
 import os
 from . import ensayo
 from . import funciones_html
+import pandas as pd
 
 # Create your views here.
 
@@ -31,6 +32,7 @@ def index(request):
     print(mi_json)
     numForm = 0
     numBoton = 0
+    numGatway = 0
 
     for obj in mi_json:
       if (obj['tipo'] == 'formulario'):
@@ -46,6 +48,10 @@ def index(request):
       if (obj['Nombre'] == "Almacén de datos"):
         funciones_html.crearSentenciaTablas(obj, mi_json)
 
+      if(obj['tipo'] == 'Gateway'):
+        numGatway +=1
+        idGatway = "Gatway" + str(numGatway)
+        application[idGatway] = str(obj['expresion'])
 
     print("Num formularios:", numForm)
     print("Num botones:", numBoton)
