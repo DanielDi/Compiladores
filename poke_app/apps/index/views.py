@@ -11,8 +11,10 @@ from . import funciones_html
 
 def index(request):
   application = {}
+  gateway = {}
   context = {
-    'application': application 
+    'application': application,
+    'gateway': gateway 
   }
   
   if request.method == 'POST' and request.FILES['myFile']:
@@ -30,16 +32,20 @@ def index(request):
     mi_json = json.loads(mi_json)
     numForm = 0
     numBoton = 0
-    numGatway = 0
+    numGateway = 0
 
     for obj in mi_json:
       if (obj['tipo'] == 'formulario'):
         data = pd.read_json(os.path.abspath('json.json'))
-        consul = data[(data['Nombre']=='Gateway') & (data['Origen']== obj['id'])]
-        print()
-        numForm += 1
-        idForm = 'formulario' + str(numForm)
-        application[idForm] = funciones_html.crearFormulario(obj, idForm)
+        consul = data[(data['Nombre']=='Gateway') & (obj['Origen'] == data['id'] )]
+        if(consul.shape[0]>0):
+          numForm += 1
+          idForm = 'formulario' + str(numForm) + "Gateway" + str(numGateway)
+          application[idForm] = funciones_html.crearFormulario(obj, idForm)
+        else:
+          numForm += 1
+          idForm = 'formulario' + str(numForm)
+          application[idForm] = funciones_html.crearFormulario(obj, idForm)
 
       if (obj['tipo'] == "boton"):
         numBoton += 1
@@ -47,9 +53,10 @@ def index(request):
         application[idBoton] = funciones_html.crearBoton(obj, idBoton)
 
       if(obj['tipo'] == 'Gateway'):
-        numGatway +=1
-        idGatway = "Gatway" + str(numGatway)
-        application[idGatway] = str(obj['expresion'])
+        numGateway +=1
+        idGateway = "Gateway" + str(numGateway)
+        print("Entre gateway")
+        gateway[idGateway] = str(obj['expresion'])
 
       if (obj['Nombre'] == "Almacén de datos"):
         print("ENTRÓ A SQL FN")
@@ -60,6 +67,7 @@ def index(request):
     print("Num botones:", numBoton)
 
     print(len(context['application']))
+    print(len(context['gateway']))
     # print(context['application']['formulario2'])
     # render(request, 'index.html', context)
     # return HttpResponseRedirect("/")

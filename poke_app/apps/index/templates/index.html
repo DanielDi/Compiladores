@@ -114,6 +114,18 @@
         if (app[nextView] !== undefined) {
           handleFormSubmission(lastForm);
           renderView(app[nextView], appContainer);
+        }else{
+          gate += gate <= gatewayLength ? 1 : 0;
+          
+          if(condicion)
+            nextView = `formulario${idx}GateWay${gate}`
+            nextView = `formulario${idx}GateWay${gate}`
+            if (app[nextView] !== undefined) {
+              handleFormSubmission(lastForm);
+              renderView(app[nextView], appContainer);
+          }
+          
+
         }
 
         if (idx === +contextLength + 1) {
@@ -143,8 +155,10 @@
       // Aplicación parseada desde el template context de Django
       const app = JSON.parse(`{{ application | js }}`);
       const contextLength = "{{ application | length }}";
+      const gatewayLength = "{{ gateway | length }}"
 
       let idx = 1;
+      let gate = 0;
       let firstView = `formulario${idx}`;
 
       // Si el tamaño del objeto app es diferente de 0 (hay datos que mostrar) entonces muestra los datos
