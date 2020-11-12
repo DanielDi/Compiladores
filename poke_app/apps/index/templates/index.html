@@ -136,6 +136,67 @@
         return response.json();
       }
 
+      const handleGateSubmission = (form) => {
+        formObj = {};
+        checkBoxValue = []
+        Array.from(form).map((element, idx) => {
+          //formObj["form_id"] = form.id;
+          if(form.name) {
+            formObj["tabla"] = form.name;
+          }
+          element.name
+          switch (element.type) {
+            case "radio":
+
+              if (element.checked) {
+                formObj[element.name] = element.value
+              }
+              break;
+
+            case "checkbox":
+              if (element.checked) {
+                checkBoxValue.push(element.value)
+              }
+              break;
+
+            case "text":
+              formObj[element.name] = element.value;
+              break;
+
+            case "number":
+              formObj[element.name] = element.value;
+              break;
+
+            case "email":
+              formObj[element.name] = element.value;
+              break;
+
+            case "password":
+              formObj[element.name] = element.value;
+              break;
+
+            case "date":
+              formObj[element.name] = element.valueAsDate;
+              break;
+
+            case "time":
+              formObj[element.name] = element.valueAsDate;
+              break;
+            default:
+              break;
+          }
+
+          if (element.type === "checkbox") {
+            formObj[element.name] = checkBoxValue.toString();
+          }
+        });
+
+        // Para enviar a la base de datos
+        sendFormTo('../data/', formObj)
+        console.log(formObj)
+        console.log(JSON.stringify(formObj))
+      };
+
       const nextForm = () => {
         const lastForm = document.querySelector(`#formulario${idx}`);
 
@@ -145,6 +206,12 @@
         if (app[nextView] !== undefined) {
           handleFormSubmission(lastForm);
           renderView(app[nextView], appContainer);
+        } else {
+          let nextGateView = `formulario${idx}Gateway1`;
+          let expresion = app['Gateway1'];
+          if(eval('30>25')){
+            console.log('ENTRÓOOOOOOOO');
+          }
         }
 
         if (idx === +contextLength + 1) {
@@ -176,6 +243,7 @@
       const contextLength = "{{ application | length }}";
 
       let idx = 1;
+      let idGate = 1;
       let firstView = `formulario${idx}`;
 
       // Si el tamaño del objeto app es diferente de 0 (hay datos que mostrar) entonces muestra los datos
