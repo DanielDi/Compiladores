@@ -5,8 +5,24 @@ from sqlite3 import Error
 # Funciones que reciben un objeto JSON del TIPO de elemento HTML que el 
 # usuario desea crear 
 
-def crearFormulario(form_json, idForm):
-  formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form>"
+def crearFormulario(form_json, idForm, mi_json):
+  idFormulario = form_json["id"]
+  almacen = None
+  for obj in mi_json:
+    if obj["Destino"] == idFormulario and obj["Nombre"] == "Almacén de datos":
+      almacen = obj
+      break
+
+  nombreTabla = None
+  if(almacen):
+    nombreTabla = almacen["Texto1"]
+
+  if(nombreTabla):
+    formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form id='" + idForm + "' name='" + nombreTabla + "'>"
+
+  else:
+    formulario = "<h3>" + form_json['Texto1'] + "</h3>" + "<form id='" + idForm + "'>"
+
   campos = (form_json['campos']).split(';')
   id_etiqueta = 1
   for campo in campos:
@@ -31,7 +47,7 @@ def crearFormulario(form_json, idForm):
       id_etiqueta += 1
     formulario += label + entrada
 
-  formulario += "<br><input type='button' value='Enviar'></form>"
+  formulario += "</form>"
   return formulario
 
 def crearBoton(boton_json, idBoton):
@@ -41,15 +57,11 @@ def crearBoton(boton_json, idBoton):
 def crearSentenciaTablas(almacen, mi_json):
   idAlmacen = almacen["id"]
   nombreTabla = almacen["Texto1"]
-  for obj in mi_json:
-    if obj["Destino"] == idAlmacen and obj["Nombre"] == "Línea":
-      idFormulario = obj["Origen"]
-      break
 
   for obj in mi_json:
-    if obj["id"] == idFormulario:
-      formulario = obj
-      break 
+    if obj["id"] == almacen["Destino"]:
+        formulario = obj
+        break
 
   campos = (formulario['campos']).split(';')
   nombre_y_tipo = []
@@ -79,11 +91,32 @@ def crearSentenciaTablas(almacen, mi_json):
   conn.close()
 
 
-# def crearSentenciaInsert(datosReq):
-#   for a in datosReq.GET.items():
-#       prop, val = a
-#       print("Propiedad:", prop)
-#       print("Valor:", val)
+def crearSentenciaInsert(datos_json):
+  sentencia = "INSERT INTO " + datos_json["tabla"] + "("
+  del datos_json["tabla"]
+  print("DATOS DENTRO DE LA FUNC INSERT")
+  print(datos_json)
+
+  for key in datos_json:
+    sentencia += key + ","
+
+  sentencia = sentencia[:-1] + ") VALUES("
+
+  for key in datos_json:
+    if(datos_json[key]):
+      sentencia += "'" + datos_json[key] + "'" + ","
+    else:
+      sentencia += "null" + ","
+
+  sentencia = sentencia[:-1] + ")"
+  print("SENTENCIA INSERT FINAL:")
+  print(sentencia)
+
+  conn = create_connection(settings.DATABASES['default']['NAME'])
+  cur = conn.cursor()
+  cur.execute(sentencia)
+  conn.commit()
+  conn.close()
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database
@@ -110,3 +143,6 @@ def create_table(conn, create_table_sql):
     except Error as e:
         print(e)
   
+
+
+
