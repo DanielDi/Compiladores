@@ -136,66 +136,19 @@
         return response.json();
       }
 
-      const handleGateSubmission = (form) => {
-        formObj = {};
+      const handleGateSubmission = (form,varty) => {
+        formObj = "";
         checkBoxValue = []
         Array.from(form).map((element, idx) => {
           //formObj["form_id"] = form.id;
-          if(form.name) {
-            formObj["tabla"] = form.name;
-          }
-          element.name
-          switch (element.type) {
-            case "radio":
+          if(element.name == varty){
+            (formObj = element.value);
+          }});
 
-              if (element.checked) {
-                formObj[element.name] = element.value
-              }
-              break;
-
-            case "checkbox":
-              if (element.checked) {
-                checkBoxValue.push(element.value)
-              }
-              break;
-
-            case "text":
-              formObj[element.name] = element.value;
-              break;
-
-            case "number":
-              formObj[element.name] = element.value;
-              break;
-
-            case "email":
-              formObj[element.name] = element.value;
-              break;
-
-            case "password":
-              formObj[element.name] = element.value;
-              break;
-
-            case "date":
-              formObj[element.name] = element.valueAsDate;
-              break;
-
-            case "time":
-              formObj[element.name] = element.valueAsDate;
-              break;
-            default:
-              break;
-          }
-
-          if (element.type === "checkbox") {
-            formObj[element.name] = checkBoxValue.toString();
-          }
-        });
-
-        // Para enviar a la base de datos
-        sendFormTo('../data/', formObj)
         console.log(formObj)
         console.log(JSON.stringify(formObj))
-      };
+        return formObj;
+        };
 
       const nextForm = () => {
         const lastForm = document.querySelector(`#formulario${idx}`);
@@ -208,17 +161,39 @@
           renderView(app[nextView], appContainer);
         } else {
           let nextGateView = `formulario${idx}Gateway1`;
-          let expresion = app['Gateway1'];
-          if(eval('30>25')){
-            console.log('ENTRÓOOOOOOOO');
+          if(app[nextGateView] !== undefined){
+            let expresion = app['Gateway1'];
+            console.log(expresion)
+            var varty = expresion.split(")",2)
+            // >25
+            let final = varty[1]
+            // imc
+            let vartyF = varty[0].substring(1)
+            let head = handleGateSubmission(lastForm,vartyF)
+
+            let expresionF = head.concat(final)
+            console.log(expresionF)
+
+            if(eval(expresionF)){
+              handleFormSubmission(lastForm);
+              renderView(app[nextGateView], appContainer);
+              idx += idx <= contextLength ? 1 : 0;
+            }else{
+              idx += idx <= contextLength ? 1 : 0;
+              let nextGateView = `formulario${idx}Gateway1`;
+              handleFormSubmission(lastForm);
+              renderView(app[nextGateView], appContainer);
+            }
           }
         }
-
-        if (idx === +contextLength + 1) {
-          handleFormSubmission(lastForm);
+        console.log(idx)
+        console.log(contextLength)
+        if (idx >= +contextLength) {
+          console.log("IFFFFFFFFFFFFFFFFFFFFF")
+          //handleFormSubmission(lastForm);
           renderView(
             '<h1 class="success-notification">Formulario completado exitosamente</h1>',
-            appContainer
+            appContainer  
           );
         }
       };

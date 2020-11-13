@@ -57,7 +57,7 @@ def index(request):
 
       if(obj['Nombre'] == 'Gateway'):
         numGateway +=1
-        idGatway = "Gatway" + str(numGateway)
+        idGatway = "Gateway" + str(numGateway)
         application[idGatway] = str(obj['expresion'])
 
     print("Num formularios:", numForm)
