@@ -32,13 +32,20 @@ def index(request):
     print(mi_json)
     numForm = 0
     numBoton = 0
-    numGatway = 0
+    numGateway = 0
 
     for obj in mi_json:
       if (obj['tipo'] == 'formulario'):
-        numForm += 1
-        idForm = 'formulario' + str(numForm)
-        application[idForm] = funciones_html.crearFormulario(obj, idForm, mi_json)
+        data = pd.read_json(os.path.abspath('json.json'))
+        consul = data[(data['Nombre']=='Gateway') & (obj['Origen'] == data['id'] )]
+        if(consul.shape[0]>0):
+          numForm += 1
+          idForm = 'formulario' + str(numForm) + "Gateway" + str(numGateway)
+          application[idForm] = funciones_html.crearFormulario(obj, idForm, mi_json)
+        else:
+          numForm += 1
+          idForm = 'formulario' + str(numForm)
+          application[idForm] = funciones_html.crearFormulario(obj, idForm, mi_json)
 
       if (obj['tipo'] == "boton"):
         numBoton += 1
@@ -49,16 +56,15 @@ def index(request):
         funciones_html.crearSentenciaTablas(obj, mi_json)
 
       if(obj['Nombre'] == 'Gateway'):
-        numGatway +=1
-        idGatway = "Gatway" + str(numGatway)
-        print(str(obj['expresion']))
+        numGateway +=1
+        idGatway = "Gateway" + str(numGateway)
         application[idGatway] = str(obj['expresion'])
 
     print("Num formularios:", numForm)
     print("Num botones:", numBoton)
 
     print(len(context['application']))
-    print(context['application']['formulario2'])
+    # print(context['application']['formulario2'])
     # render(request, 'index.html', context)
     # return HttpResponseRedirect("/")
 
