@@ -1,5 +1,7 @@
 # Compiladores
 
+Software para convertir un diagrama BPMN a una solución web.
+
 Para instalar por primera vez:
  - instalar python 
  - abrir cmd: pip3 install pipenv
